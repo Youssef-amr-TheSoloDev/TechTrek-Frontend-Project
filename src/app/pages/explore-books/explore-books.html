@@ -1,8 +1,58 @@
 <main class="explore-books">
-  <section class="container section">
-    <h1>Explore Books</h1>
+  <section class="explore-books__intro">
+    <div class="container">
+      <span class="explore-books__eyebrow">BookVerse Library</span>
+      <h1>{{ heading }}</h1>
+      <p>{{ description }}</p>
+      <nav class="explore-books__filters" aria-label="Explore book filters">
+        <a routerLink="/explore">All Books</a>
+        <a routerLink="/explore/popular">Popular</a>
+        <a routerLink="/explore/new">New Arrivals</a>
+        <a routerLink="/explore/best-seller">Best Sellers</a>
+        <a routerLink="/explore/category/Fiction">Fiction</a>
+        <a routerLink="/explore/category/Science">Science</a>
+        <a routerLink="/explore/category/History">History</a>
+      </nav>
+    </div>
+  </section>
 
-    <p *ngIf="!searchTerm">Browse the latest reads and discover your next favorite book.</p>
-    <p *ngIf="searchTerm">Showing results for: <strong>{{ searchTerm }}</strong></p>
+  <section class="container explore-books__results">
+    @if (isLoading()) {
+    <div class="explore-books__loading" role="status" aria-live="polite">
+      <span class="explore-books__loading-icon"><app-icon ImagePath="assets/icons/book-open.svg"
+          Size="2em"></app-icon></span>
+      <strong>Opening the library</strong>
+      <span>Finding your next great read<span class="explore-books__loading-dots"
+          aria-hidden="true"><i></i><i></i><i></i></span></span>
+    </div>
+    } @else if (!books().length) {
+    <p class="explore-books__status">No books found. Try another search.</p>
+    } @else {
+    @if (pageCount > 1) {
+    <nav class="explore-books__pagination explore-books__pagination--top" aria-label="Book pages">
+      <button type="button" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Previous</button>
+      @for (page of pageNumbers; track page) {
+      <button type="button" [class.is-active]="page === currentPage"
+        [attr.aria-current]="page === currentPage ? 'page' : null" (click)="goToPage(page)">{{ page }}</button>
+      }
+      <button type="button" [disabled]="currentPage === pageCount" (click)="goToPage(currentPage + 1)">Next</button>
+    </nav>
+    }
+    <div class="explore-books__grid">
+      @for (book of books(); track book.id) {
+      <app-home-book-card [book]="book"></app-home-book-card>
+      }
+    </div>
+    @if (pageCount > 1) {
+    <nav class="explore-books__pagination" aria-label="Book pages">
+      <button type="button" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Previous</button>
+      @for (page of pageNumbers; track page) {
+      <button type="button" [class.is-active]="page === currentPage"
+        [attr.aria-current]="page === currentPage ? 'page' : null" (click)="goToPage(page)">{{ page }}</button>
+      }
+      <button type="button" [disabled]="currentPage === pageCount" (click)="goToPage(currentPage + 1)">Next</button>
+    </nav>
+    }
+    }
   </section>
 </main>

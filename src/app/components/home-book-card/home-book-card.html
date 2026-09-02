@@ -1,7 +1,8 @@
-<article class="book-card">
-  <a class="book-card__cover" [routerLink]="['/explore', book.id, 'details']" (click)="selected.emit(book)">
+<article class="book-card" role="link" tabindex="0" (click)="openDetails($event)" (keydown.enter)="openDetails($event)"
+  (keydown.space)="openDetails($event)">
+  <div class="book-card__cover">
     @if (coverImage) { <img [src]="coverImage" [alt]="title" /> } @else { <span>{{ title }}</span> }
-  </a>
+  </div>
   <div class="book-card__body"><span class="book-card__genre">{{ genre }}</span>
     <h3>{{ title }}</h3>
     <p>{{ author }}</p>

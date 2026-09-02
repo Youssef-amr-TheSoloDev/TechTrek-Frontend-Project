@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    imports: [FormsModule, RouterLink],
+    imports: [FormsModule],
     selector: 'app-home-newsletter',
     styleUrl: './home-newsletter.css',
     templateUrl: './home-newsletter.html',

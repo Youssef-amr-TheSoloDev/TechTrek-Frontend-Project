@@ -1,0 +1,168 @@
+.explore-books {
+  min-height: calc(100vh - var(--header-height));
+  background: var(--color-background);
+}
+.explore-books__intro {
+  padding-block: clamp(3rem, 7vw, 5rem);
+  background: var(--color-surface-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+.explore-books__eyebrow {
+  color: var(--color-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.explore-books h1 {
+  margin-top: var(--space-3);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+.explore-books__intro p {
+  max-width: 38rem;
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+}
+.explore-books__filters {
+  display: flex;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+  margin-top: var(--space-6);
+}
+.explore-books__filters a {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+.explore-books__filters a:hover {
+  color: var(--color-secondary);
+}
+.explore-books__results {
+  padding-block: var(--space-10) var(--space-16);
+}
+.explore-books__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+.explore-books__status {
+  padding-block: var(--space-10);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+.explore-books__loading {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 15rem;
+  padding-top: var(--space-10);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+.explore-books__loading-icon {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-secondary);
+  box-shadow: var(--shadow-sm);
+  animation: explore-books-float 1.8s ease-in-out infinite;
+}
+.explore-books__loading strong {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+}
+.explore-books__loading > span:last-child {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+}
+.explore-books__loading-dots {
+  display: inline-flex;
+  gap: 0.2rem;
+  margin-left: 0.15rem;
+}
+.explore-books__loading-dots i {
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: var(--color-secondary);
+  animation: explore-books-pulse 1.2s ease-in-out infinite;
+}
+.explore-books__loading-dots i:nth-child(2) {
+  animation-delay: 150ms;
+}
+.explore-books__loading-dots i:nth-child(3) {
+  animation-delay: 300ms;
+}
+@keyframes explore-books-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes explore-books-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.explore-books__pagination {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: var(--space-10);
+}
+.explore-books__pagination--top {
+  margin-top: 0;
+  margin-bottom: var(--space-8);
+}
+.explore-books__pagination button {
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+}
+.explore-books__pagination button.is-active,
+.explore-books__pagination button:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+.explore-books__pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+@media (max-width: 900px) {
+  .explore-books__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .explore-books__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 420px) {
+  .explore-books__grid {
+    grid-template-columns: 1fr;
+  }
+}

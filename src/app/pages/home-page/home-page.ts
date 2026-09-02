@@ -52,7 +52,6 @@ export class HomePage implements OnInit {
   ];
 
   onHeroPrimaryAction(): void { }
-  onBookSelected(book: Book): void { console.debug('Selected book:', book.volumeInfo.title); }
   onCategorySelected(category: HomeCategory): void { console.debug('Selected category:', category.name); }
   onSubscribed(email: string): void { console.debug('Newsletter subscription:', email); }
 }

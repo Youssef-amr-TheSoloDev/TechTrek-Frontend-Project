@@ -1,17 +1,24 @@
 .newsletter {
   background: var(--color-background);
   text-align: center;
+  padding: var(--space-10) var(--page-padding-x);
 }
 .newsletter__inner {
-  padding-block: clamp(3rem, 6vw, 5rem);
+  width: min(100%, 68rem);
+  padding: clamp(3rem, 6vw, 5rem) var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-lg);
 }
 .newsletter h2 {
+  color: var(--color-text-inverse);
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
 .newsletter p {
   max-width: 38rem;
   margin: var(--space-3) auto var(--space-5);
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.72);
   font-size: var(--font-size-sm);
 }
 .newsletter form {
@@ -24,7 +31,7 @@
   min-width: 0;
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm) 0 0 var(--radius-sm);
   background: white;
   outline: none;
@@ -32,7 +39,7 @@
 .newsletter button {
   padding: 0.75rem 1rem;
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  background: var(--color-primary);
+  background: var(--color-secondary);
   color: white;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
@@ -40,12 +47,9 @@
 .newsletter small {
   display: block;
   margin-top: var(--space-3);
-  color: var(--color-text-light);
+  color: rgba(255, 255, 255, 0.48);
+  letter-spacing: 0.08em;
   font-size: 0.65rem;
-}
-.newsletter small a {
-  color: var(--color-text-muted);
-  text-decoration: underline;
 }
 @media (max-width: 420px) {
   .newsletter form {

@@ -1,5 +1,5 @@
-<a class="category-card" [routerLink]="['/explore']" [queryParams]="{ category: category.name }"
-  (click)="selected.emit(category)" [style.--category-image]="`url('${category.image}')`">
+<a class="category-card" [routerLink]="['/explore/category', category.name]" (click)="selected.emit(category)"
+  [style.--category-image]="`url('${category.image}')`">
   <div>
     <h3>{{ category.name }}</h3><span>{{ category.count }} Books</span><strong>Browse Collection <app-icon
         ImagePath="assets/icons/arrow-right.svg" Size="1em"></app-icon></strong>

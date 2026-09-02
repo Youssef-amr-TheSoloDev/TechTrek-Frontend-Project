@@ -10,7 +10,7 @@
       </app-home-section-heading>
       <div class="book-grid book-grid--three">
         @for (book of editorPicks; track book.id) {
-        <app-home-book-card [book]="book" (selected)="onBookSelected($event)"></app-home-book-card>
+        <app-home-book-card [book]="book"></app-home-book-card>
         }
       </div>
     </div>
@@ -36,7 +36,7 @@
         actionLabel="Explore Trending Titles"></app-home-section-heading>
       <div class="book-grid book-grid--four">
         @for (book of communityFavorites; track book.id) {
-        <app-home-book-card [book]="book" (selected)="onBookSelected($event)"></app-home-book-card>
+        <app-home-book-card [book]="book"></app-home-book-card>
         }
       </div>
     </div>

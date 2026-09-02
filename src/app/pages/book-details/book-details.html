@@ -1,1 +1,116 @@
-<p>book-details works!</p>
+<main class="book-details">
+    @if (isLoading) {
+    <p class="book-details__status">Loading book details...</p>
+    } @else if (!book) {
+    <section class="container book-details__status">
+        <h1>Book not found</h1>
+        <a routerLink="/explore">Back to Explore</a>
+    </section>
+    } @else {
+    <section class="container book-details__content">
+        <nav class="book-details__breadcrumb" aria-label="Breadcrumb">
+            <a routerLink="/">Home</a><span>/</span><a routerLink="/explore">Explore</a><span>/</span><strong>{{ title
+                }}</strong>
+        </nav>
+        <div class="book-details__layout">
+            <div class="book-details__visual">
+                <div class="book-details__cover">@if (coverImage) { <img [src]="coverImage" [alt]="title" /> }</div>
+                <div class="book-details__cover-actions">
+                    <button type="button" aria-label="Add to favorites"><app-icon
+                            ImagePath="assets/icons/heart.svg"></app-icon></button>
+                    <button type="button" aria-label="Share book"><app-icon
+                            ImagePath="assets/icons/share-2.svg"></app-icon></button>
+                </div>
+                <div class="book-details__quick-stats">
+                    <div><app-icon ImagePath="assets/icons/star.svg"></app-icon><strong>{{ book.volumeInfo.averageRating
+                            || 'New' }}</strong><small>Rating</small></div>
+                    <div><app-icon ImagePath="assets/icons/book-open.svg"></app-icon><strong>{{ pageCount
+                            }}</strong><small>Pages</small></div>
+                    <div><app-icon ImagePath="assets/icons/message-square.svg"></app-icon><strong>{{
+                            book.volumeInfo.ratingsCount || 0 }}</strong><small>Reviews</small></div>
+                </div>
+                <aside class="book-details__author-card">
+                    <img src="assets/images/avater.png" alt="Author" />
+                    <div><strong>{{ authors }}</strong><span>Author</span></div>
+                    <a [href]="book.volumeInfo.infoLink" target="_blank" rel="noreferrer">About the Author</a>
+                </aside>
+            </div>
+            <article class="book-details__copy">
+                <div class="book-details__badges"><span>Available</span><span>Bestseller</span><span>{{
+                        book.volumeInfo.categories?.[0] || 'Book' }}</span></div>
+                <h1>{{ title }}</h1>
+                <p class="book-details__author">{{ authors }} <span>•</span> {{ publishedDate }} <span>•</span> {{
+                    publisher }}</p>
+                <div class="book-details__price">
+                    <div><small>Our Price</small><strong>{{ price }}</strong></div><span><app-icon
+                            ImagePath="assets/icons/star.svg"></app-icon> {{ book.volumeInfo.averageRating || 'New' }}
+                        <small>({{ book.volumeInfo.ratingsCount || 0 }})</small></span>
+                </div>
+                <div class="book-details__purchase"><a class="book-details__cart"
+                        [href]="book.saleInfo?.buyLink || book.volumeInfo.previewLink" target="_blank"
+                        rel="noreferrer"><app-icon ImagePath="assets/icons/shopping-cart.svg" Size="1em"></app-icon> Add
+                        to Cart</a><a class="book-details__borrow"
+                        [href]="book.volumeInfo.previewLink || book.volumeInfo.infoLink" target="_blank"
+                        rel="noreferrer"><app-icon ImagePath="assets/icons/book-open.svg" Size="1em"></app-icon> Borrow
+                        Now</a></div>
+                <div class="book-details__perks"><span><app-icon
+                            ImagePath="assets/icons/truck.svg"></app-icon><strong>Free Delivery<small>Orders over
+                                $35</small></strong></span><span><app-icon
+                            ImagePath="assets/icons/shield-check.svg"></app-icon><strong>Secure Pay<small>Encrypted
+                                checkout</small></strong></span><span><app-icon
+                            ImagePath="assets/icons/rotate-ccw.svg"></app-icon><strong>Easy Returns<small>30-day
+                                window</small></strong></span></div>
+                <div class="book-details__tabs" role="tablist" aria-label="Book information">
+                    <button type="button" role="tab" [class.is-active]="activeTab === 'description'"
+                        [attr.aria-selected]="activeTab === 'description'"
+                        (click)="selectTab('description')">Description</button>
+                    <button type="button" role="tab" [class.is-active]="activeTab === 'details'"
+                        [attr.aria-selected]="activeTab === 'details'" (click)="selectTab('details')">Book
+                        Details</button>
+                    <button type="button" role="tab" [class.is-active]="activeTab === 'reviews'"
+                        [attr.aria-selected]="activeTab === 'reviews'" (click)="selectTab('reviews')">Reviews ({{
+                        book.volumeInfo.ratingsCount || 0 }})</button>
+                </div>
+                @if (activeTab === 'description') {
+                <div class="book-details__tab-panel" role="tabpanel">
+                    <p class="book-details__description">{{ description }}</p>
+                    <h2 class="book-details__subheading">Themes &amp; Categories</h2>
+                    <div class="book-details__categories">@for (category of categories; track category) { <span>{{
+                            category
+                            }}</span> }</div>
+                </div>
+                } @else if (activeTab === 'details') {
+                <div class="book-details__tab-panel book-details__book-facts" role="tabpanel">
+                    <div><span>Publisher</span><strong>{{ publisher }}</strong></div>
+                    <div><span>Published</span><strong>{{ publishedDate }}</strong></div>
+                    <div><span>Pages</span><strong>{{ pageCount }}</strong></div>
+                    <div><span>Language</span><strong>{{ book.volumeInfo.language || 'N/A' }}</strong></div>
+                    <div><span>Print type</span><strong>{{ book.volumeInfo.printType || 'Book' }}</strong></div>
+                    <div><span>ISBN</span><strong>{{ book.volumeInfo.industryIdentifiers?.[0]?.identifier || 'N/A'
+                            }}</strong></div>
+                </div>
+                } @else {
+                <div class="book-details__tab-panel book-details__reviews" role="tabpanel">
+                    <div class="book-details__review-score"><strong>{{ book.volumeInfo.averageRating || 'New'
+                            }}</strong><span><app-icon ImagePath="assets/icons/star.svg"></app-icon> Average rating from
+                            {{ book.volumeInfo.ratingsCount || 0 }} readers</span></div>
+                    <p>No written reviews are available for this book yet.</p>
+                </div>
+                }
+            </article>
+        </div>
+        <section class="book-details__related">
+            <div class="book-details__related-heading">
+                <div><span>You Might Also Like</span>
+                    <h2>Reader's Choices</h2>
+                </div><a routerLink="/explore">Explore More <app-icon ImagePath="assets/icons/arrow-right.svg"
+                        Size="1em"></app-icon></a>
+            </div>
+            <div class="book-details__related-grid">@for (relatedBook of relatedBooks; track relatedBook.id) {
+                <app-home-book-card [book]="relatedBook"></app-home-book-card> }
+            </div>
+        </section>
+    </section>
+    <app-home-newsletter></app-home-newsletter>
+    }
+</main>

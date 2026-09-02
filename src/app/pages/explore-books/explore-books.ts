@@ -1,21 +1,219 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink
+} from '@angular/router';
+import {
+  combineLatest,
+  Observable,
+  Subscription
+} from 'rxjs';
+
+import { Book } from '../../../types/types.type';
+import { BookData } from '../../../services/book-data';
+import { HomeBookCard } from '../../components/home-book-card/home-book-card';
+import { Icon } from '../../components/icon/icon';
 
 @Component({
-  imports: [],
   selector: 'app-explore-books',
-  styleUrl: './explore-books.css',
+  imports: [HomeBookCard, Icon, RouterLink],
   templateUrl: './explore-books.html',
+  styleUrl: './explore-books.css',
 })
-export class ExploreBooks implements OnInit {
-  searchTerm = '';
+export class ExploreBooks implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute) {}
+  readonly books = signal<Book[]>([]);
+
+  searchTerm = '';
+  heading = 'Explore Books';
+  description =
+    'Browse the latest reads and discover your next favorite book.';
+
+  totalItems = 0;
+  currentPage = 1;
+
+  readonly pageSize = 20;
+
+  isLoading = signal<boolean>(true);
+
+  private routeSubscription?: Subscription;
+  private requestSubscription?: Subscription;
+
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly bookData: BookData
+  ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.watchRoute();
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription?.unsubscribe();
+    this.requestSubscription?.unsubscribe();
+  }
+
+  private watchRoute(): void {
+    this.routeSubscription = combineLatest([
+      this.route.paramMap,
+      this.route.queryParamMap,
+      this.route.url
+    ]).subscribe(([params, queryParams, segments]) => {
+
       const term = params.get('term');
-      this.searchTerm = term ? decodeURIComponent(term) : '';
+      const category = params.get('category');
+
+      const routeSegments = segments.map(segment => segment.path);
+
+      const isPopular = routeSegments.includes('popular');
+      const isNew = routeSegments.includes('new');
+      const isBestSeller = routeSegments.includes('best-seller');
+
+      this.currentPage = Math.max(
+        1,
+        Number(queryParams.get('page')) || 1
+      );
+
+      this.searchTerm = term
+        ? decodeURIComponent(term)
+        : '';
+
+      this.loadBooks({
+        term,
+        category,
+        isPopular,
+        isNew,
+        isBestSeller
+      });
+    });
+  }
+
+  private loadBooks(options: {
+    term: string | null;
+    category: string | null;
+    isPopular: boolean;
+    isNew: boolean;
+    isBestSeller: boolean;
+  }): void {
+
+    this.isLoading.set(true);
+
+    const request = this.getBookRequest(options);
+
+    this.requestSubscription?.unsubscribe();
+
+    this.requestSubscription = request.subscribe({
+      next: response => {
+        this.totalItems = response.totalItems;
+        this.books.set(response.items ?? []);
+        this.isLoading.set(false);
+      },
+
+      error: () => {
+        this.books.set([]);
+        this.totalItems = 0;
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  private getBookRequest(options: {
+    term: string | null;
+    category: string | null;
+    isPopular: boolean;
+    isNew: boolean;
+    isBestSeller: boolean;
+  }): Observable<{
+    items?: Book[];
+    totalItems: number;
+  }> {
+
+    const {
+      term,
+      category,
+      isPopular,
+      isNew,
+      isBestSeller
+    } = options;
+
+    if (term) {
+      this.heading = `Search results for "${this.searchTerm}"`;
+      this.description =
+        'Results from the BookVerse library.';
+
+      return this.bookData.searchBooks(
+        this.searchTerm,
+        this.currentPage
+      );
+    }
+
+    if (category) {
+      this.heading = `${category} Books`;
+      this.description =
+        `Explore our collection of ${category.toLowerCase()} books.`;
+
+      return this.bookData.getBooksByCategory(
+        category,
+        this.currentPage
+      );
+    }
+
+    if (isNew) {
+      this.heading = 'New Arrivals';
+      this.description =
+        'Fresh additions to the BookVerse library.';
+
+      return this.bookData.getNewBooks(this.currentPage);
+    }
+
+    if (isBestSeller) {
+      this.heading = 'Best Sellers';
+      this.description =
+        'Discover the titles readers are buying and recommending most.';
+
+      return this.bookData.getBestSellerBooks(this.currentPage);
+    }
+
+    this.heading = isPopular
+      ? 'Popular Books'
+      : 'Explore Books';
+
+    this.description = isPopular
+      ? 'Discover the books readers are loving right now.'
+      : 'Browse the latest reads and discover your next favorite book.';
+
+    return this.bookData.getPopularBooks(this.currentPage);
+  }
+
+  get pageCount(): number {
+    return Math.max(
+      1,
+      Math.ceil(this.totalItems / this.pageSize)
+    );
+  }
+
+  get pageNumbers(): number[] {
+    return Array.from(
+      { length: this.pageCount },
+      (_, index) => index + 1
+    );
+  }
+
+  goToPage(page: number): void {
+    if (
+      page < 1 ||
+      page > this.pageCount ||
+      page === this.currentPage
+    ) {
+      return;
+    }
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page },
+      queryParamsHandling: 'merge'
     });
   }
 }

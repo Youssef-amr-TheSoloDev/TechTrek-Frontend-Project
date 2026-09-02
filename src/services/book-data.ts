@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, timeout } from 'rxjs/operators';
 import { BooksResponse } from '../types/types.type';
 
 @Injectable({
@@ -9,33 +9,28 @@ import { BooksResponse } from '../types/types.type';
 })
 export class BookData {
 
-  private readonly cacheKey = 'google-books-cached';
-  private readonly refreshInterval = 24 * 60 * 60 * 1000;
+  private readonly apiKey = 'AIzaSyD56HjENHiulOm8CepTpMXTI5rBZxWltnA';
+  private readonly cachePrefix = 'bookverse-books:';
+  private readonly cacheLifetime = 24 * 60 * 60 * 1000;
 
   private books: NonNullable<BooksResponse['items']> = [];
-  private lastLoadedAt = 0;
   private readonly booksSubject = new BehaviorSubject<NonNullable<BooksResponse['items']>>([]);
   readonly books$ = this.booksSubject.asObservable();
 
   constructor(private readonly http: HttpClient) {
-    this.loadDataFromCache();
-
-    // TODO: Do NOT keep API keys in frontend code.
-    const savedApiKey = 'AIzaSyD56HjENHiulOm8CepTpMXTI5rBZxWltnA';
-
-    if (savedApiKey) {
-      this.initialize(savedApiKey);
+    if (this.apiKey) {
+      this.initialize(this.apiKey);
     }
   }
 
   /**
    * Get books from Google Books API
    */
-  getAllBooks(apiKey: string): Observable<BooksResponse> {
+  getAllBooks(apiKey: string, page = 1): Observable<BooksResponse> {
     const params = new HttpParams()
       .set('q', 'subject:fiction')
-      .set('maxResults', '40')
-      .set('startIndex', '0')
+      .set('maxResults', '20')
+      .set('startIndex', String((page - 1) * 20))
       .set('printType', 'books')
       .set('orderBy', 'relevance')
       .set('key', apiKey);
@@ -43,6 +38,48 @@ export class BookData {
     return this.http.get<BooksResponse>(
       'https://www.googleapis.com/books/v1/volumes',
       { params }
+    );
+  }
+
+  searchBooks(term: string, page = 1): Observable<BooksResponse> {
+    return this.queryBooks(`intitle:${term.trim()}`, 'relevance', page);
+  }
+
+  getPopularBooks(page = 1): Observable<BooksResponse> {
+    return this.queryBooks('subject:fiction', 'relevance', page);
+  }
+
+  getBooksByCategory(category: string, page = 1): Observable<BooksResponse> {
+    return this.queryBooks(`subject:${category.trim()}`, 'relevance', page);
+  }
+
+  getNewBooks(page = 1): Observable<BooksResponse> {
+    return this.queryBooks('subject:fiction', 'newest', page);
+  }
+
+  getBestSellerBooks(page = 1): Observable<BooksResponse> {
+    return this.queryBooks('bestseller', 'relevance', page);
+  }
+
+  getBookById(id: string): Observable<NonNullable<BooksResponse['items']>[number] | undefined> {
+    const loadedBook = this.books.find((book) => book.id === id);
+    if (loadedBook) {
+      return of(loadedBook);
+    }
+
+    const cacheKey = `${this.cachePrefix}detail:${id}`;
+    const cachedBook = this.readCache<NonNullable<BooksResponse['items']>[number]>(cacheKey);
+    if (cachedBook) {
+      return of(cachedBook);
+    }
+
+    return this.http.get<NonNullable<BooksResponse['items']>[number]>(
+      `https://www.googleapis.com/books/v1/volumes/${encodeURIComponent(id)}`,
+      { params: new HttpParams().set('key', this.apiKey) }
+    ).pipe(
+      timeout(10000),
+      tap((book) => this.writeCache(cacheKey, book)),
+      catchError(() => of(undefined)),
     );
   }
 
@@ -65,33 +102,19 @@ export class BookData {
     return this.books;
   }
 
-  loadBooks(apiKey: string): Observable<BooksResponse> {
-
-    // Use cached books if they are still fresh
-    if (
-      this.books.length > 0 &&
-      Date.now() - this.lastLoadedAt < this.refreshInterval
-    ) {
-      return of({
-        items: this.books,
-        totalItems: this.books.length
-      } as BooksResponse);
+  loadBooks(apiKey: string, page = 1): Observable<BooksResponse> {
+    const cacheKey = `${this.cachePrefix}initial:${page}`;
+    const cachedBooks = this.readCache<BooksResponse>(cacheKey);
+    if (cachedBooks) {
+      this.publishBooks(cachedBooks);
+      return of(cachedBooks);
     }
 
-    return this.getAllBooks(apiKey).pipe(
+    return this.getAllBooks(apiKey, page).pipe(
 
       tap((response) => {
-        this.books = response.items ?? [];
-        this.lastLoadedAt = Date.now();
-        this.booksSubject.next(this.books);
-
-        localStorage.setItem(
-          this.cacheKey,
-          JSON.stringify({
-            books: response,
-            timestamp: this.lastLoadedAt
-          })
-        );
+        this.publishBooks(response);
+        this.writeCache(cacheKey, response);
 
         console.log(
           `Loaded ${this.books.length} books from Google Books`
@@ -101,41 +124,73 @@ export class BookData {
       catchError((error) => {
         console.error('Google Books API error:', error);
 
-        // Fall back to cached books
         return of({
-          items: this.books,
-          totalItems: this.books.length
+          kind: 'books#volumes',
+          items: [],
+          totalItems: 0
         } as BooksResponse);
       })
     );
   }
 
-  private loadDataFromCache(): void {
-    const cachedData = localStorage.getItem(this.cacheKey);
-
-    if (!cachedData) {
-      return;
+  private queryBooks(query: string, orderBy: 'relevance' | 'newest' = 'relevance', page = 1): Observable<BooksResponse> {
+    console.log(query, page);
+    const cacheKey = `${this.cachePrefix}query:${query}:${orderBy}:${page}`;
+    const cachedBooks = this.readCache<BooksResponse>(cacheKey);
+    if (cachedBooks) {
+      this.publishBooks(cachedBooks);
+      return of(cachedBooks);
     }
 
+    const params = new HttpParams()
+      .set('q', query)
+      .set('maxResults', '20')
+      .set('startIndex', String((page - 1) * 20))
+      .set('printType', 'books')
+      .set('orderBy', orderBy)
+      .set('key', this.apiKey);
+
+    return this.http.get<BooksResponse>('https://www.googleapis.com/books/v1/volumes', { params }).pipe(
+      timeout(10000),
+      tap((response) => {
+        this.publishBooks(response);
+        this.writeCache(cacheKey, response);
+      }),
+      catchError(() => of({ kind: 'books#volumes', items: [], totalItems: 0 } as BooksResponse))
+    );
+  }
+
+  private publishBooks(response: BooksResponse): void {
+    this.books = response.items ?? [];
+    this.booksSubject.next(this.books);
+  }
+
+  private readCache<T>(key: string): T | undefined {
     try {
-      const parsed = JSON.parse(cachedData) as {
-        books?: BooksResponse;
-        timestamp?: number;
-      };
-
-      if (parsed.books?.items && parsed.timestamp) {
-        this.books = parsed.books.items;
-        this.lastLoadedAt = parsed.timestamp;
-        this.booksSubject.next(this.books);
-
-        console.log(
-          `Loaded ${this.books.length} books from cache`
-        );
+      const cached = localStorage.getItem(key);
+      if (!cached) {
+        return undefined;
       }
 
-    } catch (error) {
-      console.error('Invalid book cache:', error);
-      localStorage.removeItem(this.cacheKey);
+      const entry = JSON.parse(cached) as { data?: T; timestamp?: number };
+      if (!entry.data || !entry.timestamp || Date.now() - entry.timestamp >= this.cacheLifetime) {
+        localStorage.removeItem(key);
+        return undefined;
+      }
+
+      return entry.data;
+    } catch {
+      localStorage.removeItem(key);
+      return undefined;
     }
   }
+
+  private writeCache<T>(key: string, data: T): void {
+    try {
+      localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
+    } catch {
+      // Ignore storage quota and restricted-storage errors.
+    }
+  }
+
 }

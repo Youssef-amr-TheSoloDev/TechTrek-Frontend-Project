@@ -18,6 +18,10 @@ export const routes: Routes = [
   { path: 'help', component: HelpCenterPage },
   { path: 'explore', component: ExploreBooks },
   { path: 'explore/search/:term', component: ExploreBooks },
+  { path: 'explore/popular', component: ExploreBooks },
+  { path: 'explore/new', component: ExploreBooks },
+  { path: 'explore/best-seller', component: ExploreBooks },
+  { path: 'explore/category/:category', component: ExploreBooks },
   { path: 'explore/:bookname/details', component: BookDetails },
   { path: '**', component: Page404 } // leave this path at the end of this array
 ];
