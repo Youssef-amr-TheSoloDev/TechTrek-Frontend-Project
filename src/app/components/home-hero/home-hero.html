@@ -1,0 +1,21 @@
+<section class="hero" [style.--hero-image]="`url('${image}')`">
+    <div class="hero__inner container">
+        <div class="hero__content">
+            <span class="hero__eyebrow">{{ eyebrow }}</span>
+            <h1 class="hero__title">{{ title }}<br /><strong>{{ highlight }}</strong></h1>
+            <p class="hero__description">{{ description }}</p>
+            <div class="hero__actions">
+                <a class="hero__button hero__button--primary" routerLink="/explore" (click)="primaryAction.emit()">
+                    Start Reading Now
+                    <app-icon ImagePath="assets/icons/arrow-right.svg" Size="1em"></app-icon>
+                </a>
+                <a class="hero__button hero__button--outline" routerLink="/about" (click)="secondaryAction.emit()">Learn
+                    How It Works</a>
+            </div>
+            <div class="hero__trust">
+                <span class="hero__avatars" aria-hidden="true"><i></i><i></i><i></i><i></i><b>+</b></span>
+                <span>Joined by <strong>12,000+</strong> active readers this month</span>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,59 @@
+.newsletter {
+  background: var(--color-background);
+  text-align: center;
+}
+.newsletter__inner {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+.newsletter h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+.newsletter p {
+  max-width: 38rem;
+  margin: var(--space-3) auto var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+.newsletter form {
+  display: flex;
+  justify-content: center;
+  max-width: 27rem;
+  margin: 0 auto;
+}
+.newsletter input {
+  min-width: 0;
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  background: white;
+  outline: none;
+}
+.newsletter button {
+  padding: 0.75rem 1rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--color-primary);
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+.newsletter small {
+  display: block;
+  margin-top: var(--space-3);
+  color: var(--color-text-light);
+  font-size: 0.65rem;
+}
+.newsletter small a {
+  color: var(--color-text-muted);
+  text-decoration: underline;
+}
+@media (max-width: 420px) {
+  .newsletter form {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .newsletter input,
+  .newsletter button {
+    border-radius: var(--radius-sm);
+  }
+}

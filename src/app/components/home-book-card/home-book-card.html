@@ -1,0 +1,11 @@
+<article class="book-card">
+  <a class="book-card__cover" [routerLink]="['/explore', book.id, 'details']" (click)="selected.emit(book)">
+    @if (coverImage) { <img [src]="coverImage" [alt]="title" /> } @else { <span>{{ title }}</span> }
+  </a>
+  <div class="book-card__body"><span class="book-card__genre">{{ genre }}</span>
+    <h3>{{ title }}</h3>
+    <p>{{ author }}</p>
+    <div class="book-card__meta"><span><app-icon ImagePath="assets/icons/star.svg" Size=".85em"></app-icon> {{ rating }}
+        {{ ratingCount }}</span><strong>{{ price }}</strong></div>
+  </div>
+</article>

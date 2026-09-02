@@ -1,1 +1,44 @@
-<p>page404 works!</p>
+<main class="not-found">
+  <section class="not-found__content">
+    <img class="not-found__image" src="assets/images/404-banner.png" alt="Illustration for a missing page" />
+
+    <h1 class="not-found__title">Page Not Found</h1>
+
+    <p class="not-found__description">
+      Oops! It seems the page you're looking for has been misplaced.<br />
+      Even our best librarians couldn't find it. Let's get you back on track.
+    </p>
+
+    <form class="not-found__search" (submit)="submitSearch($event)">
+      <label class="not-found__search-label" for="not-found-search">Search books</label>
+      <div class="not-found__search-field">
+        <app-icon ImagePath="assets/icons/search.svg" Color="var(--color-primary)"></app-icon>
+        <input id="not-found-search" class="not-found__search-input" name="searchTerm" type="search"
+          [(ngModel)]="searchTerm" placeholder="Search for titles, authors, or genres..."
+          aria-label="Search for books" />
+        <button class="not-found__search-button" type="submit">Search</button>
+      </div>
+    </form>
+
+    <div class="not-found__actions">
+      <a class="button button--primary" routerLink="/">Return to Home</a>
+      <a class="button button--secondary" routerLink="/explore">Explore Books</a>
+    </div>
+
+    <div class="not-found__help" aria-label="Need assistance">
+      <span class="not-found__help-text">Need assistance?</span>
+
+      <div class="not-found__help-links">
+        <a class="not-found__help-link" routerLink="/help">
+          <app-icon ImagePath="assets/icons/info.svg"></app-icon>
+          Help Center
+        </a>
+
+        <a class="not-found__help-link not-found__help-link--secondary" routerLink="/contact">
+          <app-icon ImagePath="assets/icons/phone.svg"></app-icon>
+          Contact
+        </a>
+      </div>
+    </div>
+  </section>
+</main>

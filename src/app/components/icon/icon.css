@@ -1,4 +1,14 @@
+:host {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  line-height: 0;
+  vertical-align: middle;
+}
+
 div {
+  display: block;
+
   mask-image: var(--image);
   mask-position: center;
   mask-repeat: no-repeat;
@@ -7,6 +17,7 @@ div {
 
   background-color: var(--color);
 
+  flex: 0 0 var(--size);
   width: var(--size);
   height: var(--size);
 }

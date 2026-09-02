@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BooksResponse } from '../types/types.type';
 
@@ -14,6 +14,8 @@ export class BookData {
 
   private books: NonNullable<BooksResponse['items']> = [];
   private lastLoadedAt = 0;
+  private readonly booksSubject = new BehaviorSubject<NonNullable<BooksResponse['items']>>([]);
+  readonly books$ = this.booksSubject.asObservable();
 
   constructor(private readonly http: HttpClient) {
     this.loadDataFromCache();
@@ -81,6 +83,7 @@ export class BookData {
       tap((response) => {
         this.books = response.items ?? [];
         this.lastLoadedAt = Date.now();
+        this.booksSubject.next(this.books);
 
         localStorage.setItem(
           this.cacheKey,
@@ -123,6 +126,7 @@ export class BookData {
       if (parsed.books?.items && parsed.timestamp) {
         this.books = parsed.books.items;
         this.lastLoadedAt = parsed.timestamp;
+        this.booksSubject.next(this.books);
 
         console.log(
           `Loaded ${this.books.length} books from cache`

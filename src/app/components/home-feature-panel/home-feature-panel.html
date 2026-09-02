@@ -1,0 +1,13 @@
+<section class="feature-panel">
+  <div class="container feature-panel__inner">
+    <div class="feature-panel__copy">
+      <h2>{{ title }}</h2>
+      <p>{{ description }}</p>
+      <div class="feature-panel__grid">@for (feature of features; track feature.title) { <div class="feature">
+          <app-icon [ImagePath]="'assets/icons/' + feature.icon + '.svg'" Size="3em"
+            Color="var(--color-secondary)"></app-icon>
+          <div><strong>{{ feature.title }}</strong><span>{{ feature.text }}</span></div>
+        </div> }</div><a class="feature-panel__button" routerLink="/about">Join Our Community</a>
+    </div><img [src]="image" alt="Reader enjoying a quiet library" />
+  </div>
+</section>

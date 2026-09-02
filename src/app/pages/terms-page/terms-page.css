@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.page {
+  display: block;
+  padding-block: var(--page-padding-y);
+}
+
+.page__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.page__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.page__eyebrow {
+  color: var(--color-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.page__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--card-padding);
+}
+
+.page__content p,
+.page__content li {
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+}
+
+.page__content h2 {
+  font-size: var(--font-size-lg);
+}

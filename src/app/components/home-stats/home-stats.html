@@ -1,0 +1,13 @@
+<section class="stats" aria-label="BookVerse statistics">
+  <div class="stats__inner container">
+    @for (stat of stats; track stat.label) {
+    <div class="stat">
+      <span class="stat__icon">
+        <app-icon [ImagePath]="'assets/icons/' + stat.icon + '.svg'" Size="2.5em"
+          Color="var(--color-primary)"></app-icon>
+      </span>
+      <div><strong>{{ stat.value }}</strong><span>{{ stat.label }}</span></div>
+    </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,47 @@
+<main class="home-page">
+  <app-home-hero (primaryAction)="onHeroPrimaryAction()"></app-home-hero>
+  <app-home-stats [stats]="stats"></app-home-stats>
+
+  <section class="home-section home-section--picks">
+    <div class="container">
+      <app-home-section-heading title="Editor's Choice"
+        description="Hand-picked gems from our literary experts. These titles are currently making waves in our community."
+        actionLabel="See All Recommendations">
+      </app-home-section-heading>
+      <div class="book-grid book-grid--three">
+        @for (book of editorPicks; track book.id) {
+        <app-home-book-card [book]="book" (selected)="onBookSelected($event)"></app-home-book-card>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section home-section--categories">
+    <div class="container">
+      <app-home-section-heading title="Explore by Category"
+        description="Dive into our extensive library organized by genre. Whatever your taste, we have something for you.">
+      </app-home-section-heading>
+      <div class="category-grid">
+        @for (category of categories; track category.name) {
+        <app-home-category-card [category]="category" (selected)="onCategorySelected($event)"></app-home-category-card>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section home-section--favorites">
+    <div class="container">
+      <app-home-section-heading title="Community Favorites"
+        description="The most borrowed and discussed books in the BookVerse network right now."
+        actionLabel="Explore Trending Titles"></app-home-section-heading>
+      <div class="book-grid book-grid--four">
+        @for (book of communityFavorites; track book.id) {
+        <app-home-book-card [book]="book" (selected)="onBookSelected($event)"></app-home-book-card>
+        }
+      </div>
+    </div>
+  </section>
+
+  <app-home-feature-panel [features]="features"></app-home-feature-panel>
+  <app-home-newsletter (subscribed)="onSubscribed($event)"></app-home-newsletter>
+</main>
