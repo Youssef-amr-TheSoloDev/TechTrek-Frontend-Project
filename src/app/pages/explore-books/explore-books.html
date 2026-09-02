@@ -1,1 +1,8 @@
-<p>explore-books works!</p>
+<main class="explore-books">
+  <section class="container section">
+    <h1>Explore Books</h1>
+
+    <p *ngIf="!searchTerm">Browse the latest reads and discover your next favorite book.</p>
+    <p *ngIf="searchTerm">Showing results for: <strong>{{ searchTerm }}</strong></p>
+  </section>
+</main>
