@@ -7,6 +7,6 @@ import { Page404 } from './pages/page404/page404';
 export const routes: Routes = [
   { path: '', component: HomePage },
   { path: 'explore', component: ExploreBooks },
-  { path: 'explore/:bookname', component: BookDetails },
+  { path: 'explore/:bookname/details', component: BookDetails },
   { path: '**', component: Page404 } // leave this path at the end of this array
 ];
