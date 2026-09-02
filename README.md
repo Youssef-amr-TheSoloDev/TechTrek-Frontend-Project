@@ -1,59 +1,42 @@
-# TechTrekFrontendProject
+# BookVerse
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.6.
+BookVerse is a frontend-only online library management system built with Angular.
 
-## Development server
+The project allows users to browse a collection of books, search and filter books, view book details, borrow books, purchase books, and manage their library activity.
 
-To start a local development server, run:
+Users have an account where they can view their borrowed books, purchase history, and personal information.
 
-```bash
-ng serve
-```
+All application data is stored locally in the browser using LocalStorage, so the project does not require a backend or database.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Main Features
 
-## Code scaffolding
+* Browse books
+* Search and filter books
+* View book details
+* Borrow and return books
+* Purchase books
+* View borrowing history
+* View purchase history
+* Manage user profile
+* Account dashboard
+* Responsive design for desktop and mobile
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Technologies
 
-```bash
-ng generate component component-name
-```
+* Angular
+* TypeScript
+* Angular Material
+* Tailwind CSS / SCSS
+* RxJS
+* Angular Signals
+* LocalStorage
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Project Purpose
 
-```bash
-ng generate --help
-```
+BookVerse was created as an Angular frontend project to demonstrate building a complete interactive web application without a backend.
 
-## Building
+The focus is on modern UI design, reusable components, routing, forms, local data management, and a smooth user experience.
 
-To build the project run:
+## License
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is for educational purposes.
