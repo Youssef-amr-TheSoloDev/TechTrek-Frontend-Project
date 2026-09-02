@@ -1,25 +1,32 @@
-<nav>
-  <span class="Title">
-    <a href="/">
+<nav class="navbar">
+  <div class="navbar__brand">
+    <a href="/" aria-label="Home page">
       <app-site-logo></app-site-logo>
     </a>
-  </span>
-  <div>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/explore">Explore</a></li>
-      <li><a href="/about">About</a></li>
+  </div>
+
+  <div class="navbar__nav" aria-label="Main navigation">
+    <ul class="navbar__list">
+      <li class="navbar__item"><a class="navbar__link" href="/">Home</a></li>
+      <li class="navbar__item"><a class="navbar__link" href="/explore">Explore</a></li>
+      <li class="navbar__item"><a class="navbar__link" href="/about">About</a></li>
     </ul>
   </div>
-  <span>
-    <app-icon ImagePath="assets/icons/search.svg"></app-icon>
-    <app-icon ImagePath="assets/icons/shopping-bag.svg"></app-icon>
-    <span>
-      <span>
-        <app-icon ImagePath="assets/icons/user.svg" Color="var(  --color-border)"></app-icon>
-        <h6>My Account</h6>
+
+  <div class="navbar__actions" aria-label="Quick actions">
+    <button class="navbar__icon-button" type="button" aria-label="Search">
+      <app-icon ImagePath="assets/icons/search.svg"></app-icon>
+    </button>
+    <button class="navbar__icon-button" type="button" aria-label="Shopping bag">
+      <app-icon ImagePath="assets/icons/shopping-bag.svg"></app-icon>
+    </button>
+
+    <button class="navbar__account" type="button" aria-label="My account">
+      <span class="navbar__account-inner">
+        <app-icon ImagePath="assets/icons/user.svg" Color="var(--color-border)"></app-icon>
+        <span class="navbar__account-label">My Account</span>
         <app-icon ImagePath="assets/icons/arrow-down.svg" Color="var(--color-border)" Size="1em"></app-icon>
       </span>
-    </span>
-  </span>
+    </button>
+  </div>
 </nav>

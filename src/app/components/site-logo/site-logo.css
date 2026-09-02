@@ -1,0 +1,16 @@
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap-sm);
+}
+
+app-icon {
+  background-color: var(--color-primary);
+  padding: 0.5em;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}

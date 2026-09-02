@@ -1,48 +1,61 @@
-<main>
-  <div class="">
-    <div>
+<footer class="footer">
+  <div class="footer__container container">
+    <div class="footer__brand">
       <app-site-logo></app-site-logo>
-      <p>Empowering readers to discover, track, and manage their literary journey. Your personal gateway to the world of
-        books.</p>
+      <p class="footer__description">
+        Empowering readers to discover, track, and manage their literary journey. Your personal gateway to the world of
+        books.
+      </p>
     </div>
-    <div>
-      <h4>EXPLORE</h4>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/explore">Explore Books</a></li>
-        <li><a href="/explore/new">New Arrival</a></li>
-        <li><a href="/explore/best-seller">Best Sellers</a></li>
+
+    <div class="footer__column">
+      <h4 class="footer__title">Explore</h4>
+      <ul class="footer__list">
+        <li class="footer__item"><a class="footer__link" href="/">Home</a></li>
+        <li class="footer__item"><a class="footer__link" href="/explore">Explore Books</a></li>
+        <li class="footer__item"><a class="footer__link" href="/explore/new">New Arrival</a></li>
+        <li class="footer__item"><a class="footer__link" href="/explore/best-seller">Best Sellers</a></li>
       </ul>
     </div>
-    <div>
-      <h4>SUPPORT</h4>
-      <ul>
-        <li><a href="/help">Help Center</a></li>
-        <li><a href="/terms">Terms of Service</a></li>
-        <li><a href="/policy">Privacy Policy</a></li>
-        <li><a href="/contact">Contact Us</a></li>
+
+    <div class="footer__column">
+      <h4 class="footer__title">Support</h4>
+      <ul class="footer__list">
+        <li class="footer__item"><a class="footer__link" href="/help">Help Center</a></li>
+        <li class="footer__item"><a class="footer__link" href="/terms">Terms of Service</a></li>
+        <li class="footer__item"><a class="footer__link" href="/policy">Privacy Policy</a></li>
+        <li class="footer__item"><a class="footer__link" href="/contact">Contact Us</a></li>
       </ul>
     </div>
-    <div>
-      <h4>CONTACT</h4>
-      <ul>
-        <li><a href="mailto:support@bookverse.com">
+
+    <div class="footer__column">
+      <h4 class="footer__title">Contact</h4>
+      <ul class="footer__list footer__list--contact">
+        <li class="footer__item">
+          <a class="footer__link footer__link--contact" href="mailto:support@bookverse.com">
             <app-icon ImagePath="assets/icons/mail.svg"></app-icon>
-            <p>support@bookverse.com</p>
-          </a></li>
-        <li><a href="tel:+201282421657">
+            <span>support@bookverse.com</span>
+          </a>
+        </li>
+        <li class="footer__item">
+          <a class="footer__link footer__link--contact" href="tel:+201282421657">
             <app-icon ImagePath="assets/icons/phone.svg"></app-icon>
-            <p>+1 (555) 123-4567</p>
-          </a></li>
-        <li><a href="">
+            <span>+1 (555) 123-4567</span>
+          </a>
+        </li>
+        <li class="footer__item">
+          <a class="footer__link footer__link--contact" href="/contact">
             <app-icon ImagePath="assets/icons/map-pin.svg"></app-icon>
-            <p>123 Literary Way, Reading City</p>
-          </a></li>
+            <span>123 Literary Way, Reading City</span>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
-  <hr>
-  <div class="">
-    <span>&copy; {{Year}} BookVerse Inc. All right reserved.</span>
+
+  <div class="footer__bottom">
+    <div class="footer__container footer__container--bottom">
+      <span class="footer__copyright">&copy; {{Year}} BookVerse Inc. All rights reserved.</span>
+    </div>
   </div>
-</main>
+</footer>
