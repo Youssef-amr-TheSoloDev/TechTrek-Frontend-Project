@@ -23,6 +23,64 @@
   margin-top: var(--space-3);
   color: var(--color-text-muted);
 }
+.explore-books__controls {
+  display: grid;
+  grid-template-columns: minmax(16rem, 1fr) minmax(10rem, 12rem) minmax(10rem, 12rem);
+  gap: var(--space-3);
+  align-items: end;
+  margin-top: var(--space-6);
+}
+.explore-books__search label,
+.explore-books__select span {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+.explore-books__search-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.8rem;
+  padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+.explore-books__search-field app-icon {
+  flex: 0 0 auto;
+  color: var(--color-secondary);
+}
+.explore-books__search-field input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+}
+.explore-books__search-field button {
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+.explore-books__select select {
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
 .explore-books__filters {
   display: flex;
   gap: var(--space-5);
@@ -152,11 +210,23 @@
   opacity: 0.45;
 }
 @media (max-width: 900px) {
+  .explore-books__controls {
+    grid-template-columns: 1fr 1fr;
+  }
+  .explore-books__search {
+    grid-column: 1 / -1;
+  }
   .explore-books__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 @media (max-width: 640px) {
+  .explore-books__controls {
+    grid-template-columns: 1fr;
+  }
+  .explore-books__search {
+    grid-column: auto;
+  }
   .explore-books__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

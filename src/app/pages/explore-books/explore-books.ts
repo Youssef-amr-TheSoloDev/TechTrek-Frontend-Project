@@ -4,6 +4,7 @@ import {
   Router,
   RouterLink
 } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import {
   combineLatest,
   Observable,
@@ -17,7 +18,7 @@ import { Icon } from '../../components/icon/icon';
 
 @Component({
   selector: 'app-explore-books',
-  imports: [HomeBookCard, Icon, RouterLink],
+  imports: [FormsModule, HomeBookCard, Icon, RouterLink],
   templateUrl: './explore-books.html',
   styleUrl: './explore-books.css',
 })
@@ -26,6 +27,9 @@ export class ExploreBooks implements OnInit, OnDestroy {
   readonly books = signal<Book[]>([]);
 
   searchTerm = '';
+  searchInput = '';
+  selectedCategory = 'All';
+  sortOrder: 'relevance' | 'newest' = 'relevance';
   heading = 'Explore Books';
   description =
     'Browse the latest reads and discover your next favorite book.';
@@ -75,10 +79,13 @@ export class ExploreBooks implements OnInit, OnDestroy {
         1,
         Number(queryParams.get('page')) || 1
       );
+      this.sortOrder = queryParams.get('sort') === 'newest' ? 'newest' : 'relevance';
 
       this.searchTerm = term
         ? decodeURIComponent(term)
         : '';
+      this.searchInput = this.searchTerm;
+      this.selectedCategory = category || 'All';
 
       this.loadBooks({
         term,
@@ -145,18 +152,20 @@ export class ExploreBooks implements OnInit, OnDestroy {
 
       return this.bookData.searchBooks(
         this.searchTerm,
-        this.currentPage
+        this.currentPage,
+        this.sortOrder
       );
     }
 
     if (category) {
-      this.heading = `${category} Books`;
+      this.heading = 'Explore Books';
       this.description =
         `Explore our collection of ${category.toLowerCase()} books.`;
 
       return this.bookData.getBooksByCategory(
         category,
-        this.currentPage
+        this.currentPage,
+        this.sortOrder
       );
     }
 
@@ -165,7 +174,7 @@ export class ExploreBooks implements OnInit, OnDestroy {
       this.description =
         'Fresh additions to the BookVerse library.';
 
-      return this.bookData.getNewBooks(this.currentPage);
+      return this.bookData.getNewBooks(this.currentPage, this.sortOrder);
     }
 
     if (isBestSeller) {
@@ -173,7 +182,7 @@ export class ExploreBooks implements OnInit, OnDestroy {
       this.description =
         'Discover the titles readers are buying and recommending most.';
 
-      return this.bookData.getBestSellerBooks(this.currentPage);
+      return this.bookData.getBestSellerBooks(this.currentPage, this.sortOrder);
     }
 
     this.heading = isPopular
@@ -184,7 +193,32 @@ export class ExploreBooks implements OnInit, OnDestroy {
       ? 'Discover the books readers are loving right now.'
       : 'Browse the latest reads and discover your next favorite book.';
 
-    return this.bookData.getPopularBooks(this.currentPage);
+    return this.bookData.getPopularBooks(this.currentPage, this.sortOrder);
+  }
+
+  submitSearch(event: Event): void {
+    event.preventDefault();
+    const term = this.searchInput.trim();
+    if (!term) return;
+
+    this.router.navigate(['/explore/search', term], {
+      queryParams: { page: 1, sort: this.sortOrder },
+    });
+  }
+
+  changeCategory(): void {
+    const route = this.selectedCategory === 'All'
+      ? ['/explore']
+      : ['/explore/category', this.selectedCategory];
+    this.router.navigate(route, { queryParams: { page: 1, sort: this.sortOrder } });
+  }
+
+  changeSort(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: 1, sort: this.sortOrder },
+      queryParamsHandling: 'merge',
+    });
   }
 
   get pageCount(): number {

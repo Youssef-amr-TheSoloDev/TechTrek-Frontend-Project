@@ -41,24 +41,24 @@ export class BookData {
     );
   }
 
-  searchBooks(term: string, page = 1): Observable<BooksResponse> {
-    return this.queryBooks(`intitle:${term.trim()}`, 'relevance', page);
+  searchBooks(term: string, page = 1, orderBy: 'relevance' | 'newest' = 'relevance'): Observable<BooksResponse> {
+    return this.queryBooks(`intitle:${term.trim()}`, orderBy, page);
   }
 
-  getPopularBooks(page = 1): Observable<BooksResponse> {
-    return this.queryBooks('subject:fiction', 'relevance', page);
+  getPopularBooks(page = 1, orderBy: 'relevance' | 'newest' = 'relevance'): Observable<BooksResponse> {
+    return this.queryBooks('subject:fiction', orderBy, page);
   }
 
-  getBooksByCategory(category: string, page = 1): Observable<BooksResponse> {
-    return this.queryBooks(`subject:${category.trim()}`, 'relevance', page);
+  getBooksByCategory(category: string, page = 1, orderBy: 'relevance' | 'newest' = 'relevance'): Observable<BooksResponse> {
+    return this.queryBooks(`subject:${category.trim()}`, orderBy, page);
   }
 
-  getNewBooks(page = 1): Observable<BooksResponse> {
-    return this.queryBooks('subject:fiction', 'newest', page);
+  getNewBooks(page = 1, orderBy: 'relevance' | 'newest' = 'newest'): Observable<BooksResponse> {
+    return this.queryBooks('subject:fiction', orderBy, page);
   }
 
-  getBestSellerBooks(page = 1): Observable<BooksResponse> {
-    return this.queryBooks('bestseller', 'relevance', page);
+  getBestSellerBooks(page = 1, orderBy: 'relevance' | 'newest' = 'relevance'): Observable<BooksResponse> {
+    return this.queryBooks('bestseller', orderBy, page);
   }
 
   getBookById(id: string): Observable<NonNullable<BooksResponse['items']>[number] | undefined> {

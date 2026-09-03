@@ -4,6 +4,35 @@
       <span class="explore-books__eyebrow">BookVerse Library</span>
       <h1>{{ heading }}</h1>
       <p>{{ description }}</p>
+      <div class="explore-books__controls">
+        <form class="explore-books__search" (submit)="submitSearch($event)">
+          <label for="explore-search">Search the library</label>
+          <div class="explore-books__search-field">
+            <app-icon ImagePath="assets/icons/search.svg" Size="1em"></app-icon>
+            <input id="explore-search" name="search" type="search" [(ngModel)]="searchInput"
+              placeholder="Search by title or author..." />
+            <button type="submit">Search</button>
+          </div>
+        </form>
+        <label class="explore-books__select">
+          <span>Category</span>
+          <select name="category" [(ngModel)]="selectedCategory" (change)="changeCategory()">
+            <option value="All">All categories</option>
+            <option value="Fiction">Fiction</option>
+            <option value="Science">Science</option>
+            <option value="History">History</option>
+            <option value="Art">Art</option>
+            <option value="Biography">Biography</option>
+          </select>
+        </label>
+        <label class="explore-books__select">
+          <span>Sort by</span>
+          <select name="sort" [(ngModel)]="sortOrder" (change)="changeSort()">
+            <option value="relevance">Relevance</option>
+            <option value="newest">Newest first</option>
+          </select>
+        </label>
+      </div>
       <nav class="explore-books__filters" aria-label="Explore book filters">
         <a routerLink="/explore">All Books</a>
         <a routerLink="/explore/popular">Popular</a>
