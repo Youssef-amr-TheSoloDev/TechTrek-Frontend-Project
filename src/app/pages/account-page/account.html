@@ -1,0 +1,120 @@
+
+@if (user) {
+
+  <div class="account-page">
+
+    <header class="account-header">
+
+      <div>
+        <p class="small-title">My Account</p>
+        <h1>Welcome, {{ user.name }}</h1>
+      </div>
+
+      <button class="logout-button" (click)="logout()">
+        Log out
+      </button>
+
+    </header>
+
+
+    <main class="account-content">
+
+      <section class="profile-card">
+
+        <div class="profile-info">
+
+          @if (user.avatar) {
+            <img
+              class="avatar"
+              [src]="user.avatar"
+              [alt]="user.name"
+            />
+          } @else {
+            <div class="avatar placeholder">
+              {{ user.name.charAt(0) }}
+            </div>
+          }
+
+          <div>
+            <h2>{{ user.name }}</h2>
+            <p>{{ user.email }}</p>
+            <span class="role">{{ user.role }}</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="stats-grid">
+
+        <div class="stat-card">
+          <span class="stat-number">
+            {{ user.stats?.borrowedCount ?? 0 }}
+          </span>
+          <span class="stat-label">Borrowed Books</span>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-number">
+            {{ user.stats?.purchasedCount ?? 0 }}
+          </span>
+          <span class="stat-label">Purchased Books</span>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-number">
+            {{ user.stats?.dueSoonCount ?? 0 }}
+          </span>
+          <span class="stat-label">Due Soon</span>
+        </div>
+
+        <div class="stat-card">
+          <span class="stat-number">
+            {{ user.stats?.overdueCount ?? 0 }}
+          </span>
+          <span class="stat-label">Overdue</span>
+        </div>
+
+      </section>
+
+
+      <section class="account-links">
+
+        <a routerLink="/borrowed-books" class="account-link">
+          <div>
+            <h3>Borrowed Books</h3>
+            <p>View the books you currently have</p>
+          </div>
+
+          <span>→</span>
+        </a>
+
+
+        <a routerLink="/purchase-history" class="account-link">
+          <div>
+            <h3>Purchase History</h3>
+            <p>View your previous purchases</p>
+          </div>
+
+          <span>→</span>
+        </a>
+
+
+        <a routerLink="/profile-settings" class="account-link">
+          <div>
+            <h3>Profile Settings</h3>
+            <p>Update your account information</p>
+          </div>
+
+          <span>→</span>
+        </a>
+
+      </section>
+
+    </main>
+
+  </div>
+
+}
+
