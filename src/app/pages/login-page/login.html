@@ -1,0 +1,65 @@
+```html
+<div class="login-page">
+
+  <div class="login-card">
+
+    <div class="brand">
+      <h1>BookNest</h1>
+      <p>Your place for books</p>
+    </div>
+
+    <div class="form-section">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Sign in to continue to your account</p>
+
+      <form (ngSubmit)="login()">
+
+        <div class="form-group">
+          <label for="email">Email</label>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Enter your password"
+          />
+        </div>
+
+        @if (errorMessage) {
+          <p class="error">{{ errorMessage }}</p>
+        }
+
+        @if (successMessage) {
+          <p class="success">{{ successMessage }}</p>
+        }
+
+        <button type="submit" class="login-button">
+          Sign In
+        </button>
+
+      </form>
+
+      <p class="register-text">
+        Don't have an account?
+        <a routerLink="/register">Create account</a>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+```

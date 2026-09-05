@@ -1,0 +1,86 @@
+
+<div class="register-page">
+
+  <div class="register-card">
+
+    <div class="brand">
+      <h1>BookNest</h1>
+      <p>Create your library account</p>
+    </div>
+
+    <div class="form-section">
+
+      <h2>Create Account</h2>
+      <p class="subtitle">Join us and start exploring books</p>
+
+      <form (ngSubmit)="register()">
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+
+          <input
+            id="name"
+            type="text"
+            name="name"
+            [(ngModel)]="name"
+            placeholder="Enter your name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+
+          <input
+            id="email"
+            type="email"
+            name="email"
+            [(ngModel)]="email"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <input
+            id="password"
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Create a password"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+
+          <input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="Confirm your password"
+          />
+        </div>
+
+        @if (errorMessage) {
+          <p class="error">{{ errorMessage }}</p>
+        }
+
+        <button type="submit" class="register-button">
+          Create Account
+        </button>
+
+      </form>
+
+      <p class="login-text">
+        Already have an account?
+        <a routerLink="/login">Sign in</a>
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
