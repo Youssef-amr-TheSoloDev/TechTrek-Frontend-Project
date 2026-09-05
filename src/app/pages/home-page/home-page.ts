@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Book } from '../../../types/types.type';
+import { Component, OnInit, signal } from '@angular/core';
+import { Book, User } from '../../../types/types.type';
 import { BookData } from '../../../services/book-data';
 import { HomeBookCard } from '../../components/home-book-card/home-book-card';
 import { HomeCategory, HomeCategoryCard } from '../../components/home-category-card/home-category-card';
@@ -8,6 +8,7 @@ import { HomeHero } from '../../components/home-hero/home-hero';
 import { HomeNewsletter } from '../../components/home-newsletter/home-newsletter';
 import { HomeSectionHeading } from '../../components/home-section-heading/home-section-heading';
 import { HomeStat, HomeStats } from '../../components/home-stats/home-stats';
+import { UserData } from '../../../services/user-data';
 
 @Component({
   imports: [HomeBookCard, HomeCategoryCard, HomeFeaturePanel, HomeHero, HomeNewsletter, HomeSectionHeading, HomeStats],
@@ -19,7 +20,7 @@ export class HomePage implements OnInit {
   books: Book[] = [];
   isLoading = true;
 
-  constructor(private readonly bookData: BookData) { }
+  constructor(private readonly bookData: BookData, private readonly users: UserData) { }
 
   ngOnInit(): void {
     this.bookData.books$.subscribe((books) => {

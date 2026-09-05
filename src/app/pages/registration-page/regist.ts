@@ -9,8 +9,8 @@ import { User } from '../../../types/types.type';
   selector: 'app-registration',
   standalone: true,
   imports: [FormsModule, RouterLink],
-  templateUrl: './registration.html',
-  styleUrl: './registration.css'
+  templateUrl: './regist.html',
+  styleUrl: './regist.css'
 })
 export class Registration {
   name = '';
@@ -23,7 +23,7 @@ export class Registration {
   constructor(
     private userData: UserData,
     private router: Router
-  ) {}
+  ) { }
 
   register(): void {
     this.errorMessage = '';

@@ -1,10 +1,9 @@
-
 .register-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f3ef;
+  background: var(--color-page);
   padding: 30px 20px;
 }
 
@@ -14,7 +13,7 @@
   background: white;
   border-radius: 18px;
   padding: 40px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border);
 }
 
 .brand {
@@ -25,23 +24,22 @@
 .brand h1 {
   margin: 0;
   font-size: 34px;
-  color: #3b2f2f;
 }
 
 .brand p {
   margin-top: 8px;
-  color: #777;
+  color: var(--color-text-muted);
 }
 
 .form-section h2 {
   margin-bottom: 8px;
-  color: #2f2926;
+  color: var(--color-primary);
   font-size: 27px;
 }
 
 .subtitle {
   margin-bottom: 25px;
-  color: #777;
+  color: var(--color-text-muted);
 }
 
 .form-group {
@@ -52,21 +50,21 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #3b3532;
+  color: var(--color-secondary);
 }
 
 .form-group input {
   width: 100%;
   box-sizing: border-box;
   padding: 13px 14px;
-  border: 1px solid #d8d2cc;
+  border: 1px solid var(--color-border);
   border-radius: 9px;
   font-size: 15px;
   outline: none;
 }
 
 .form-group input:focus {
-  border-color: #8b6f47;
+  border-color: var(--color-secondary);
 }
 
 .register-button {
@@ -74,7 +72,7 @@
   border: none;
   border-radius: 9px;
   padding: 14px;
-  background: #3b2f2f;
+  background: var(--color-secondary);
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -83,11 +81,12 @@
 }
 
 .register-button:hover {
-  background: #51403e;
+  background: var(--color-focus);
+  color: var(--color-primary);
 }
 
 .error {
-  color: #c0392b;
+  color: var(--color-accent);
   font-size: 14px;
   margin-bottom: 15px;
 }
@@ -95,12 +94,11 @@
 .login-text {
   text-align: center;
   margin-top: 24px;
-  color: #777;
+  color: var(--color-text-muted);
 }
 
 .login-text a {
-  color: #3b2f2f;
+  color: var(--color-secondary);
   font-weight: 600;
   text-decoration: none;
 }
-

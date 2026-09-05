@@ -8,9 +8,9 @@ import { PrivacyPage } from './pages/privacy-page/privacy-page';
 import { ContactPage } from './pages/contact-page/contact-page';
 import { HelpCenterPage } from './pages/help-center-page/help-center-page';
 import { Page404 } from './pages/page404/page404';
-import { Login } from './pages/login/login';
-import { Registration } from './pages/registration/registration';
-import { AccountPreview } from './pages/account-preview/account-preview';
+import { Login } from './pages/login-page/login';
+import { Registration } from './pages/registration-page/regist';
+import { AccountPreview } from './pages/account-page/account';
 
 export const routes: Routes = [
   { path: '', component: HomePage },

@@ -8,8 +8,8 @@ import { User } from '../../../types/types.type';
   selector: 'app-account-preview',
   standalone: true,
   imports: [RouterLink],
-  templateUrl: './account-preview.html',
-  styleUrl: './account-preview.css'
+  templateUrl: './account.html',
+  styleUrl: './account.css'
 })
 export class AccountPreview implements OnInit {
   user: User | undefined;
@@ -17,7 +17,7 @@ export class AccountPreview implements OnInit {
   constructor(
     private userData: UserData,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const userId = localStorage.getItem('currentUserId');

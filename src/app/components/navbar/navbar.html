@@ -37,10 +37,16 @@
       <app-icon ImagePath="assets/icons/shopping-bag.svg"></app-icon>
     </button>
 
-    <button class="navbar__account" type="button" aria-label="My account">
+    <button class="navbar__account" type="button" aria-label="My account" (click)="OpenAccount()">
       <span class="navbar__account-inner">
+        @if (currentUser()) {
+        <img class="navbar__account-image" [src]="currentUser()?.avatar">
+        <span class="navbar__account-label">{{currentUser()?.name}}</span>
+        }
+        @else{
         <app-icon ImagePath="assets/icons/user.svg" Color="var(--color-border)"></app-icon>
-        <span class="navbar__account-label">My Account</span>
+        <span class="navbar__account-label">My account</span>
+        }
         <app-icon ImagePath="assets/icons/arrow-down.svg" Color="var(--color-border)" Size="1em"></app-icon>
       </span>
     </button>
